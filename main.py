@@ -48,13 +48,17 @@ class App:
         self.btn_start = Button(gui_window, text='Направить\nкомментарии', command=self.begin, bg='#5F5F5F',
                                 fg='white', font=("Arial", 15))
         self.private_var = BooleanVar()
-        self.chb_private = Checkbutton(text='Комментарий приватный?', variable=self.private_var, bg='#5F5F5F', fg='white',
+        self.chb_private = Checkbutton(text='Комментарий приватный?', variable=self.private_var, bg='#5F5F5F',
+                                       fg='white',
                                        font=("Arial", 14), selectcolor='#5F5F5F')
         self.lbl_count = Label(text='Нажми на кнопку,\nполучишь результат', bg='#5F5F5F', fg='white',
                                font=("Arial", 14))
 
-        self.btn_view_browser = Button(gui_window, text='Показать процесс\nв браузере', command=self.begin, bg='#5F5F5F',
-                                fg='white', font=("Arial", 15))
+        self.btn_view_browser = Button(gui_window, text='Показать процесс\nв браузере', command=self.view_browser,
+                                       bg='#5F5F5F', fg='white', font=("Arial", 15))
+
+    def view_browser(self):
+        self.api.driver.set_window_position(0, 0)
 
     def clear(self):
         self.login_area.delete('0', END)
@@ -84,14 +88,12 @@ class App:
 
         if flag:
             """Сокрытие кнопок"""
-            self.btn_send.configure(state='disabled')
-            self.btn_clear.configure(state='disabled')
-            self.btn_send.place(relx=-1, rely=0.59)
-            self.btn_clear.place(relx=1, rely=0.59)
-            self.lbl_l_naumen.place(relx=-1, rely=0.35)
-            self.login_area.place(relx=-1, rely=0.41)
-            self.lbl_p_naumen.place(relx=-1, rely=0.45)
-            self.password_area.place(relx=-1, rely=0.51)
+            self.btn_send.destroy()
+            self.btn_clear.destroy()
+            self.lbl_l_naumen.destroy()
+            self.lbl_p_naumen.destroy()
+            self.login_area.destroy()
+            self.password_area.destroy()
 
             """Создание нового фрейма"""
             lbl_text_comment = Label(text='Какой текст требуется написать в каждой заявке?', bg='#5F5F5F', fg='white',
@@ -155,7 +157,6 @@ class App:
 
 
 if __name__ == '__main__':
-
     gui_window = Tk()
     app = App(gui_window)
     gui_window.mainloop()
